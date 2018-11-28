@@ -11,3 +11,8 @@ chmod 600 $HOME/.ssh/config
 
 # Aliases
 alias emacs="/usr/local/Cellar/emacs/26.1_1/Emacs.app/Contents/MacOS/Emacs -nw"
+
+# Pyenv
+export LDFLAGS="-L/usr/local/opt/readline/lib"
+export CPPFLAGS="-I/usr/local/opt/readline/include"
+eval "$(pyenv init -)"
