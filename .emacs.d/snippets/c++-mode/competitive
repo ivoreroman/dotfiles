@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# name: competitive-cpp
+# key: competitive
+# --
+
+#include <algorithm>
+#include <cmath>
+#include <deque>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+#define all(x) x.begin(), x.end()
+#define rep(i, a, b) for(int i = a; i < (b); ++i)
+#define sz(x) (int)(x).size()
+typedef pair<int, int> pii;
+
+int main() {
+  $0
+}

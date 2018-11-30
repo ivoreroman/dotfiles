@@ -39,6 +39,16 @@
 (setq ns-use-proxy-icon  nil)
 (setq frame-title-format nil)
 
+
+;; Yasnippet
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs
+	'("~/.emacs.d/snippets"))
+  (yas-global-mode 1))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
