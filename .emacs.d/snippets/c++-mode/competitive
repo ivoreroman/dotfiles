@@ -20,6 +20,7 @@ using namespace std;
 #define all(x) x.begin(), x.end()
 #define rep(i, a, b) for(int i = a; i < (b); ++i)
 #define sz(x) (int)(x).size()
+#define trav(a, x) for(auto& a : x)
 typedef pair<int, int> pii;
 
 int main() {
