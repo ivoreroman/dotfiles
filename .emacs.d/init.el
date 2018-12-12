@@ -38,6 +38,8 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (setq ns-use-proxy-icon  nil)
 
+;; Sort apropos results by relevancy
+(setq apropos-sort-by-scores t)
 
 ;; Yasnippet
 (use-package yasnippet
