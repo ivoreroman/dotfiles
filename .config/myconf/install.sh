@@ -9,6 +9,8 @@ install_emacs() {
 
 install_misc_packages() {
   brew install tree
+  brew install ledger
+  brew install pandoc
 }
 
 install_python() {
