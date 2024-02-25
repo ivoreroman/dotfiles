@@ -94,6 +94,23 @@
 
 ;; (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
+;; project.el
+(setq project-ignore-regexp "")
+(setq project-ignore-regexp
+      (concat project-ignore-regexp "\\|" "/bazel-bin/"))
+(setq project-ignore-regexp
+      (concat project-ignore-regexp "\\|" "/bazel-out/"))
+(setq project-ignore-regexp
+      (concat project-ignore-regexp "\\|" "/bazel-ios/"))
+(setq project-ignore-regexp
+      (concat project-ignore-regexp "\\|" "/vendor/"))
+
+;; Org-mode
+(setq org-src-preserve-indentation t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((shell . t)))
+
 ;; LSP
 (setq lsp-pyright-auto-search-paths t)
 (setq lsp-pyright-include ["tools"])
@@ -106,6 +123,7 @@
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]bazel-out\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]bazel-ios\\'")
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]bazel-testlogs\\'"))
+(setq lsp-file-watch-threshold nil)
 (add-hook 'python-mode-hook (lambda ()
                               (require 'lsp-pyright)
                               (lsp-deferred)))
