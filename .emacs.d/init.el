@@ -65,7 +65,7 @@
 (savehist-mode)
 
 ;; Move through windows with Ctrl-<arrow keys>
-(windmove-default-keybindings 'control) ; You can use other modifiers here
+(windmove-default-keybindings 'super) ; You can use other modifiers here
 
 ;; Fix archaic defaults
 (setopt sentence-end-double-space nil)
