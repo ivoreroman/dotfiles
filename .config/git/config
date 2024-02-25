@@ -1,0 +1,6 @@
+[core]
+	editor = "mg -n"
+	
+[user]
+	name = "Ivo Reyes"
+	email = "git@ivoreyes.com"
