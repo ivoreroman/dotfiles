@@ -4,3 +4,6 @@
 [user]
 	name = "Ivo Reyes"
 	email = "git@ivoreyes.com"
+
+[commit]
+	verbose = true
