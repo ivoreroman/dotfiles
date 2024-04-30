@@ -71,6 +71,10 @@
 (use-package json-mode
   :ensure t)
 
+(use-package python-mode
+  :interpreter ("python3" . python-mode))
+
+
 ;; Emacs ships with a lot of popular programming language modes. If it's not
 ;; built in, you're almost certain to find a mode for the language you're
 ;; looking for with a quick Internet search.
