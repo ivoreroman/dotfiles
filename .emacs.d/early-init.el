@@ -38,3 +38,7 @@
                             (background-color . "#000000")
                             (ns-appearance . dark)
                             (ns-transparent-titlebar . t)))
+
+;; For speeding up lsp-mode
+;; https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
+(setenv "LSP_USE_PLISTS" "true")

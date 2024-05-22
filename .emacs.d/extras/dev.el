@@ -79,30 +79,61 @@
 ;; built in, you're almost certain to find a mode for the language you're
 ;; looking for with a quick Internet search.
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Eglot, the built-in LSP client for Emacs
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Helpful resources:
-;;
-;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+;; LSP-mode
+;; lsp-booster
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
 
-;; (use-package eglot
-;;   ;; no :ensure t here because it's built-in
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
-;;   ;; Configure hooks to automatically turn-on eglot for selected modes
-;;   ; :hook
-;;   ; (((python-mode ruby-mode elixir-mode) . eglot))
+;; (use-package lsp-mode
+;;   ;; :init
+;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+;;   ;; (setq lsp-keymap-prefix "C-c l")
+;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+;;          (python-mode . lsp)
+;;          ;; if you want which-key integration
+;;          (lsp-mode . lsp-enable-which-key-integration))
+;;   :commands lsp)
 
-;;   :custom
-;;   (eglot-send-changes-idle-time 0.1)
-;;   (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
+(use-package lsp-pyright
+  :ensure t
+  :hook ((pyhon-mode python-ts-mode) . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))
 
-;;   :config
-;;   (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-;;   ;; Sometimes you need to tell Eglot where to find the language server
-;;   ; (add-to-list 'eglot-server-programs
-;;   ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-;;   )
+(with-eval-after-load 'lsp-mode
+  (setq xref-prompt-for-identifier nil)
+  (setq lsp-file-watch-threshold 7000)
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\bazel-bin\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\bazel-ios\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\bazel-out\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ios/vendor\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ios/apps\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ios/libraries\\'")
+  )
