@@ -80,6 +80,14 @@
 ;; looking for with a quick Internet search.
 
 
+
+;;;;;;;;;;;;;;;
+;;; Projects
+;;;;;;;;;;;;;;;
+
+(setq xref-search-program 'ripgrep)
+
+
 ;; LSP-mode
 ;; lsp-booster
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
