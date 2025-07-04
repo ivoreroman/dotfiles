@@ -227,7 +227,8 @@ If the new path's directories does not exist, create them."
 (load-file (expand-file-name "extras/dev.el" user-emacs-directory))
 
 ;; Packages specific to my employer
-(load-file (expand-file-name "extras/work.el" user-emacs-directory))
+;; This file may not exist on all my machines
+(ignore-errors (load-file (expand-file-name "extras/work.el" user-emacs-directory)))
 
 ;; Vim-bindings in Emacs (evil-mode configuration)
 ;(load-file (expand-file-name "extras/vim-like.el" user-emacs-directory))
