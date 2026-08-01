@@ -1,0 +1,6 @@
+# Theme
+theme = "light:Catppuccin Latte,dark:Catppuccin Mocha"
+
+# Set Shell
+command = /opt/homebrew/bin/fish --login --interactive
+shell-integration = fish
